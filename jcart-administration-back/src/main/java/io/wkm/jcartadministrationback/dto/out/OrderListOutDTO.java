@@ -1,7 +1,7 @@
 package io.wkm.jcartadministrationback.dto.out;
 
 public class OrderListOutDTO {
-    private Integer orderId;
+    private Long orderId;
     private Integer customerId;
     private String customerName;
     private Byte status;
@@ -9,11 +9,11 @@ public class OrderListOutDTO {
     private Long createTimestamp;
     private Long updateTimestamp;
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

@@ -1,16 +1,16 @@
 package io.wkm.jcartadministrationback.dto.in;
 
 public class OrderSearchInDTO {
-    private Integer orderId;
+    private Long orderId;
     private String customerName;
     private Byte status;
     private Double totalPrice;
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
