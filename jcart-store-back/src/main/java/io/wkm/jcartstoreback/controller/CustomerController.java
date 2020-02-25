@@ -1,7 +1,6 @@
 package io.wkm.jcartstoreback.controller;
 
-import io.wkm.jcartstoreback.dto.in.CustomerLoginInDTO;
-import io.wkm.jcartstoreback.dto.in.CustomerRegisterInDTO;
+import io.wkm.jcartstoreback.dto.in.*;
 import io.wkm.jcartstoreback.dto.out.CustomerProfileOutDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,5 +21,24 @@ public class CustomerController {
     @GetMapping("/getProfile")
     public CustomerProfileOutDTO getProfile(@RequestAttribute Integer customerId){
         return null;
+    }
+
+    @PostMapping("/updateProfile")
+    public void updateProfile(@RequestBody CustomerUpdateProfileInDTO customerUpdateProfileInDTO,@RequestAttribute Integer customerId){
+
+    }
+
+    @PostMapping("/changePassword")
+    public void changePassword(@RequestBody CustomerChangePasswordInDTO customerChangePasswordInDTO,@RequestAttribute Integer customerId){
+    }
+
+    @GetMapping("/getPwdResetCode")
+    public String getPwdResetCode(@RequestParam String email){
+        return null;
+    }
+
+    @PostMapping("/resetPwd")
+    public void resetPwd(@RequestBody CustomerResetPwdInDTO customerResetPwdInDTO){
+
     }
 }
