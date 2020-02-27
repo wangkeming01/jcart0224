@@ -1,5 +1,7 @@
 package io.wkm.jcartadministrationback.mapper;
 
+import com.github.pagehelper.Page;
+import io.wkm.jcartadministrationback.dto.out.ProductListOutDTO;
 import io.wkm.jcartadministrationback.pojo.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,4 +23,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     int batchDelete(@Param("productIds") List<Integer> productIds);
+
+    Page<ProductListOutDTO> search();
 }

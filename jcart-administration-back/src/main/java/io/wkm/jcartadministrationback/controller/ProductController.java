@@ -1,5 +1,6 @@
 package io.wkm.jcartadministrationback.controller;
 
+import com.github.pagehelper.Page;
 import io.wkm.jcartadministrationback.dto.in.ProductCreateInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductSearchInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductUpdateInDTO;
@@ -19,8 +20,14 @@ public class ProductController {
     @Resource
     private ProductService productService;
     @GetMapping("/search")
-    public PageOutDTO<ProductListOutDTO> getList(@RequestParam Integer pageNum, @RequestBody ProductSearchInDTO productSearchInDTO){
-        return productService.search(pageNum,productSearchInDTO);
+    public PageOutDTO<ProductListOutDTO> getList(@RequestParam Integer pageNum,  ProductSearchInDTO productSearchInDTO){
+        Page<ProductListOutDTO> page = productService.search(pageNum);
+        PageOutDTO<ProductListOutDTO> productListOutDTOPageOutDTO = new PageOutDTO<>();
+        productListOutDTOPageOutDTO.setTotal(page.getTotal());
+        productListOutDTOPageOutDTO.setPageNum(pageNum);
+        productListOutDTOPageOutDTO.setList(page);
+        productListOutDTOPageOutDTO.setPageSize(page.getPageSize());
+        return productListOutDTOPageOutDTO;
     }
 
     @GetMapping("/getById")

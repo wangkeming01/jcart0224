@@ -1,5 +1,6 @@
 package io.wkm.jcartadministrationback.service;
 
+import com.github.pagehelper.Page;
 import io.wkm.jcartadministrationback.dto.in.ProductCreateInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductSearchInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductUpdateInDTO;
@@ -16,9 +17,10 @@ public interface ProductService {
 
     ProductShowOutDTO getById(Integer productId);
 
-    PageOutDTO<ProductListOutDTO> search(Integer pageNum, ProductSearchInDTO productSearchInDTO);
 
     void delete(Integer productId);
 
     void batchDelete(List<Integer> productIds);
+
+    Page<ProductListOutDTO> search(Integer pageNum);
 }

@@ -1,6 +1,8 @@
 package io.wkm.jcartadministrationback.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.wkm.jcartadministrationback.dto.in.ProductCreateInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductSearchInDTO;
 import io.wkm.jcartadministrationback.dto.in.ProductUpdateInDTO;
@@ -75,14 +77,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductShowOutDTO getById(Integer productId) {
-
-        return null;
+        Product product = productMapper.selectByPrimaryKey(productId);
+        ProductDetail productDetail = productDetailMapper.selectByPrimaryKey(productId);
+        ProductShowOutDTO productShowOutDTO = new ProductShowOutDTO();
+        productShowOutDTO.setProductId(productId);
+        productShowOutDTO.setProductName(product.getProductName());
+        productShowOutDTO.setProductCode(product.getProductCode());
+        productShowOutDTO.setPrice(product.getPrice());
+        productShowOutDTO.setDiscount(product.getDiscount());
+        productShowOutDTO.setStockQuantity(product.getStockQuantity());
+        productShowOutDTO.setStatus(product.getStatus());
+        productShowOutDTO.setMainPicUrl(product.getMainPicUrl());
+        productShowOutDTO.setRewordPoints(product.getRewordPoints());
+        productShowOutDTO.setSortOrder(product.getSortOrder());
+        List<String> other = JSON.parseArray(productDetail.getOtherPicUrls(), String.class);
+        productShowOutDTO.setOtherPicUrls(other);
+        productShowOutDTO.setDescription(productDetail.getDescription());
+        return productShowOutDTO;
     }
 
-    @Override
-    public PageOutDTO<ProductListOutDTO> search(Integer pageNum, ProductSearchInDTO productSearchInDTO) {
-        return null;
-    }
 
     @Override
     @Transactional
@@ -96,5 +109,11 @@ public class ProductServiceImpl implements ProductService {
     public void batchDelete(List<Integer> productIds) {
         productMapper.batchDelete(productIds);
         productDetailMapper.batchDelete(productIds);
+    }
+
+    @Override
+    public Page<ProductListOutDTO> search(Integer pageNum) {
+        PageHelper.startPage(pageNum,2);
+        return productMapper.search();
     }
 }

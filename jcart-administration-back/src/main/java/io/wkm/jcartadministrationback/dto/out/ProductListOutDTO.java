@@ -1,6 +1,7 @@
 package io.wkm.jcartadministrationback.dto.out;
 
 public class ProductListOutDTO {
+
     private Integer productId;
     private String productName;
     private String productCode;
