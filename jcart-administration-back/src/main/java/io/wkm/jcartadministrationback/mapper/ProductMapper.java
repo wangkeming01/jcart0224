@@ -1,6 +1,11 @@
 package io.wkm.jcartadministrationback.mapper;
 
 import io.wkm.jcartadministrationback.pojo.Product;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer productId);
@@ -14,4 +19,6 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    int batchDelete(@Param("productIds") List<Integer> productIds);
 }
