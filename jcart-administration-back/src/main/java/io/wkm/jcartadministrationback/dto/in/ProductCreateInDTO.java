@@ -13,6 +13,16 @@ public class ProductCreateInDTO {
     private Integer rewordPoints;
     private Integer sortOrder;
     private String description;
+    private String productAbstract;
+
+    public String getProductAbstract() {
+        return productAbstract;
+    }
+
+    public void setProductAbstract(String productAbstract) {
+        this.productAbstract = productAbstract;
+    }
+
     private List<String> otherPicUrls;
 
     public String getProductCode() {
