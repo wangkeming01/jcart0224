@@ -9,6 +9,16 @@ public class ProductShowOutDTO {
     private Double price;
     private Double discount;
     private Integer stockQuantity;
+    private String productAbstract;
+
+    public String getProductAbstract() {
+        return productAbstract;
+    }
+
+    public void setProductAbstract(String productAbstract) {
+        this.productAbstract = productAbstract;
+    }
+
     private Byte status;
     private String mainPicUrl;
     private Integer rewordPoints;

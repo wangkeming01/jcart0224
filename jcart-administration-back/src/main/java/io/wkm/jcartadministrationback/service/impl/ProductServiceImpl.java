@@ -90,6 +90,7 @@ public class ProductServiceImpl implements ProductService {
         productShowOutDTO.setMainPicUrl(product.getMainPicUrl());
         productShowOutDTO.setRewordPoints(product.getRewordPoints());
         productShowOutDTO.setSortOrder(product.getSortOrder());
+        productShowOutDTO.setProductAbstract(product.getProductAbstract());
         List<String> other = JSON.parseArray(productDetail.getOtherPicUrls(), String.class);
         productShowOutDTO.setOtherPicUrls(other);
         productShowOutDTO.setDescription(productDetail.getDescription());
