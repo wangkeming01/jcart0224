@@ -1,23 +1,44 @@
 package io.wkm.jcartadministrationback.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.sun.org.apache.bcel.internal.util.BCELifier;
+import io.wkm.jcartadministrationback.constant.ClientExceptionConstant;
 import io.wkm.jcartadministrationback.dto.in.AdministratorCreateInDTO;
 import io.wkm.jcartadministrationback.dto.in.AdministratorLoginInDTO;
 import io.wkm.jcartadministrationback.dto.in.AdministratorResetPwdInDTO;
 import io.wkm.jcartadministrationback.dto.in.AdministratorUpdateInDTO;
-import io.wkm.jcartadministrationback.dto.out.AdministratorGetProfileOutDTO;
-import io.wkm.jcartadministrationback.dto.out.AdministratorListOutDTO;
-import io.wkm.jcartadministrationback.dto.out.AdministratorShowOutDTO;
-import io.wkm.jcartadministrationback.dto.out.PageOutDTO;
+import io.wkm.jcartadministrationback.dto.out.*;
+import io.wkm.jcartadministrationback.exception.ClientException;
+import io.wkm.jcartadministrationback.pojo.Administrator;
+import io.wkm.jcartadministrationback.service.AdministratorService;
+import io.wkm.jcartadministrationback.util.JWTUtil;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/administrator")
 public class AdministratorController {
+    @Resource
+    private AdministratorService administratorService;
+
+    @Resource
+    private JWTUtil jwtUtil;
     @GetMapping("/login")
-    public String login(@RequestBody AdministratorLoginInDTO administratorLoginInDTO){
-        return null;
+    public AdministratorLoginOutDTO login( AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
+        Administrator administrator = administratorService.getByUserName(administratorLoginInDTO.getUsername());
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRCODE,ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encryptedPassword = administrator.getEncryptedPassword();
+        BCrypt.Result result = BCrypt.verifyer().verify(administratorLoginInDTO.getPassword().toCharArray(),encryptedPassword);
+        if (result.verified) {
+            AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
+            return administratorLoginOutDTO;
+        }else {
+            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+        }
     }
 
     @GetMapping("/getProfile")
