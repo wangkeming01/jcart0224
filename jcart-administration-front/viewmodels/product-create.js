@@ -25,9 +25,16 @@ var app = new Vue({
         selectedMainPic: '',
         selectedOtherPics: []
     },
+    mounted() {
+        console.log('view mounted');
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    },
     methods: {
         handleCreateProduct(){
             console.log("create product");
+            this.description = tinyMCE.activeEditor.getContent();
             this.createProduct();
         },
         handleOnMainChange(val){
