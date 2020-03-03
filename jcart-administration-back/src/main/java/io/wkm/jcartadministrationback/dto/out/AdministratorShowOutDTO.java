@@ -2,6 +2,11 @@ package io.wkm.jcartadministrationback.dto.out;
 
 public class AdministratorShowOutDTO {
     private Integer administratorId;
+    private String username;
+    private String realName;
+    private String email;
+    private String avatarUrl;
+    private Byte status;
 
     public Integer getAdministratorId() {
         return administratorId;
@@ -10,12 +15,6 @@ public class AdministratorShowOutDTO {
     public void setAdministratorId(Integer administratorId) {
         this.administratorId = administratorId;
     }
-
-    private String username;
-    private String realName;
-    private String email;
-    private String avatarUrl;
-    private Byte status;
 
     public String getUsername() {
         return username;

@@ -11,10 +11,36 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
   </resultMap>
+  <resultMap id="AdministratorListOutDTO" type="io.wkm.jcartadministrationback.pojo.Administrator">
+    <id column="administrator_id" jdbcType="INTEGER" property="administratorId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap id="AdministratorShowOutDTO" type="io.wkm.jcartadministrationback.pojo.Administrator">
+    <id column="administrator_id" jdbcType="INTEGER" property="administratorId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+  </resultMap>
   <sql id="Base_Column_List">
     administrator_id, username, real_name, email, encrypted_password, status, create_time, 
     avatar_url
   </sql>
+  <select id="getList" resultMap="AdministratorListOutDTO">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_administrator
+  </select>
+  <select id="getShowById" resultMap="AdministratorShowOutDTO">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_administrator
+    where administrator_id = #{administratorId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -30,6 +56,13 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jcart_administrator
     where administrator_id = #{administratorId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jcart_administrator
+    where administrator_id  in 
+    <foreach collection="administratorIds" separator="," item="item" index="index" close=")" open="(">
+      #{item}
+    </foreach>
   </delete>
   <insert id="insert" parameterType="io.wkm.jcartadministrationback.pojo.Administrator">
     insert into jcart_administrator (administrator_id, username, real_name, 
@@ -132,4 +165,5 @@
       avatar_url = #{avatarUrl,jdbcType=VARCHAR}
     where administrator_id = #{administratorId,jdbcType=INTEGER}
   </update>
+
 </mapper>
