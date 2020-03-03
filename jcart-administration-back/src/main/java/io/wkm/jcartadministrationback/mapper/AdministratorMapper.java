@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface AdministratorMapper {
-    int deleteByPrimaryKey(Integer administratorId);
+    int deleteByPrimaryKey(@Param("administratorId") Integer administratorId);
 
     int insert(Administrator record);
 
