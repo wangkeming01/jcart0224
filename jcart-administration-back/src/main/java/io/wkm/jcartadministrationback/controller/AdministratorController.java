@@ -57,7 +57,7 @@ public class AdministratorController {
         return administratorGetProfileOutDTO;
     }
 
-    @GetMapping("/updateProfile")
+    @PostMapping("/updateProfile")
     public void updateProfile(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO,@RequestAttribute Integer administratorId){
         Administrator administrator = new Administrator();
         administrator.setRealName(administratorUpdateInDTO.getRealName());
@@ -97,7 +97,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/getById")
-    public AdministratorShowOutDTO getById(@RequestAttribute Integer administratorId){
+    public AdministratorShowOutDTO getById(@RequestParam Integer administratorId){
         Administrator administrator = administratorService.getById(administratorId);
         AdministratorShowOutDTO administratorShowOutDTO = new AdministratorShowOutDTO();
         administratorShowOutDTO.setAdministratorId(administrator.getAdministratorId());

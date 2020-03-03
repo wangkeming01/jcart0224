@@ -1,18 +1,18 @@
 var app = new Vue({
     el: '#app',
     data: {
+        administratorId: '',
         username: '',
         password: '',
         realName: '',
         email: '',
-        status: 1,
-        statuses: [
-            { value: 0, label: '禁用' },
-            { value: 1, label: '启用' }
-        ],
         avatarUrl: '',
         fileList: [],
         selectPic: ''
+    },
+    mounted(){
+        console.log("view mounted");
+        this.getAdministratorById();
     },
     methods: {
         handleOnChange(val){
@@ -40,27 +40,38 @@ var app = new Vue({
                     alert('上传失败');
                 });
         },
-        handleCreateClick(){
-            console.log("create view");
-            this.createAdministrator();
+        getAdministratorById(){
+            axios.get('/administrator/getProfile')
+            .then(function (response) {
+            console.log(response);
+            var administrator = response.data;
+            app.username = administrator.username;
+            app.realName = administrator.realName;
+            app.email = administrator.email;
+            app.avatarUrl = administrator.avatarUrl;
+            app.administratorId = administrator.administratorId
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
         },
-        createAdministrator(){
-            axios.post('/administrator/create', {
-                username: this.username,
-                password: this.password,
+        handleUpdateClick(){
+            console.log("view update");
+            this.updateAdministrator();
+        },
+        updateAdministrator(){
+            axios.post('/administrator/updateProfile', {
                 realName: this.realName,
                 email: this.email,
-                avatarUrl: this.avatarUrl,
-                status: this.status,
-                
+                avatarUrl : this.avatarUrl
               })
               .then(function (response) {
-                console.log(response);
-                alert("创建成功");
+                console.log("更新成功");
               })
               .catch(function (error) {
                 console.log(error);
               });
         }
+
     }
 })
