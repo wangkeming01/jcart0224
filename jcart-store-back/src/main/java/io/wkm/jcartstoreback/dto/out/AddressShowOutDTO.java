@@ -1,18 +1,26 @@
-package io.wkm.jcartstoreback.dto.in;
+package io.wkm.jcartstoreback.dto.out;
 
-public class AddressCreateInDTO {
-    private Integer customerId;
+public class AddressShowOutDTO {
+    private Integer addressId;
+    private String tag;
     private String receiverName;
     private String receiverMobile;
     private String content;
-    private String tag;
 
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getReceiverName() {
@@ -37,13 +45,5 @@ public class AddressCreateInDTO {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 }

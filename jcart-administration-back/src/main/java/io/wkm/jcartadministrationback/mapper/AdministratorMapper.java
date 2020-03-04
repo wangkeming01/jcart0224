@@ -24,7 +24,7 @@ public interface AdministratorMapper {
     Administrator getByUserName(@Param("username") String username);
 
 
-    Page<AdministratorListOutDTO> getList();
+    Page<Administrator> getList();
 
     AdministratorShowOutDTO getShowById(@Param("administratorId") Integer administratorId);
 

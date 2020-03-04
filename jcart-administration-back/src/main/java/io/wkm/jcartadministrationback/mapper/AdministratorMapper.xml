@@ -30,7 +30,7 @@
     administrator_id, username, real_name, email, encrypted_password, status, create_time, 
     avatar_url
   </sql>
-  <select id="getList" resultMap="AdministratorListOutDTO">
+  <select id="getList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from jcart_administrator

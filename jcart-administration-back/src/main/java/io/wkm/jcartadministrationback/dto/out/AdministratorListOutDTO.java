@@ -1,11 +1,22 @@
 package io.wkm.jcartadministrationback.dto.out;
 
+import java.util.Date;
+
 public class AdministratorListOutDTO {
-    private String administratorId;
+    private Integer administratorId;
     private String username;
     private String realName;
     private Byte status;
     private Long createTimestamp;
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public String getRealName() {
         return realName;
@@ -15,11 +26,11 @@ public class AdministratorListOutDTO {
         this.realName = realName;
     }
 
-    public String getAdministratorId() {
+    public Integer getAdministratorId() {
         return administratorId;
     }
 
-    public void setAdministratorId(String administratorId) {
+    public void setAdministratorId(Integer administratorId) {
         this.administratorId = administratorId;
     }
 

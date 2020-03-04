@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import sun.security.util.Password;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/administrator")
@@ -87,13 +89,22 @@ public class AdministratorController {
 
     @GetMapping("/getList")
     public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam(required = false,defaultValue = "1") Integer pageNum){
-        Page<AdministratorListOutDTO> page = administratorService.getList(pageNum);
-        PageOutDTO<AdministratorListOutDTO> administratorListOutDTOPageOutDTO = new PageOutDTO<>();
-        administratorListOutDTOPageOutDTO.setList(page);
-        administratorListOutDTOPageOutDTO.setPageSize(page.getPageSize());
-        administratorListOutDTOPageOutDTO.setPageNum(page.getPageNum());
-        administratorListOutDTOPageOutDTO.setTotal(page.getTotal());
-        return administratorListOutDTOPageOutDTO;
+        Page<Administrator> page = administratorService.getList(pageNum);
+        List<AdministratorListOutDTO> collect = page.stream().map(administrator -> {
+            AdministratorListOutDTO administratorListOutDTO = new AdministratorListOutDTO();
+            administratorListOutDTO.setAdministratorId(administrator.getAdministratorId());
+            administratorListOutDTO.setUsername(administrator.getUsername());
+            administratorListOutDTO.setRealName(administrator.getRealName());
+            administratorListOutDTO.setStatus(administrator.getStatus());
+            administratorListOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+            return administratorListOutDTO;
+        }).collect(Collectors.toList());
+        PageOutDTO<AdministratorListOutDTO> pageOutDTO = new PageOutDTO<>();
+        pageOutDTO.setTotal(page.getTotal());
+        pageOutDTO.setPageSize(page.getPageSize());
+        pageOutDTO.setPageNum(page.getPageNum());
+        pageOutDTO.setList(collect);
+        return pageOutDTO;
     }
 
     @GetMapping("/getById")
@@ -136,7 +147,7 @@ public class AdministratorController {
         String password = administratorUpdateInDTO.getPassword();
         if (password != null && !password.isEmpty() ){
             String s = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-            administrator.setEncryptedPassword(password);
+            administrator.setEncryptedPassword(s);
         }
         administratorService.update(administrator);
     }

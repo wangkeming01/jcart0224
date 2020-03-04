@@ -27,6 +27,18 @@
     from jcart_customer
     where customer_id = #{customerId,jdbcType=INTEGER}
   </select>
+  <select id="getByUserName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_customer
+    where username = #{username}
+  </select>
+  <select id="getByEmail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_customer
+    where email = #{email}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jcart_customer
     where customer_id = #{customerId,jdbcType=INTEGER}

@@ -1,7 +1,6 @@
 package io.wkm.jcartstoreback.dto.out;
 
 public class CustomerProfileOutDTO {
-    private Integer customerId;
     private String username;
     private String realName;
     private String email;
@@ -9,13 +8,6 @@ public class CustomerProfileOutDTO {
     private Boolean mobileVerified;
     private Boolean emailVerified;
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
 
     public String getUsername() {
         return username;

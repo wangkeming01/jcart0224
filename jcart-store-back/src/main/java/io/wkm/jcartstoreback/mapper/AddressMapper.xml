@@ -18,6 +18,12 @@
     from jcart_address
     where address_id = #{addressId,jdbcType=INTEGER}
   </select>
+  <select id="getListByCustomerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_address
+    where customerId = #{customerId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jcart_address
     where address_id = #{addressId,jdbcType=INTEGER}

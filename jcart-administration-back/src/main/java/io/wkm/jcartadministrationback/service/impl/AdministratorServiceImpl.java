@@ -43,7 +43,7 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public Page<AdministratorListOutDTO> getList(Integer pageNum) {
+    public Page<Administrator> getList(Integer pageNum) {
         PageHelper.startPage(pageNum,10);
         return administratorMapper.getList();
     }

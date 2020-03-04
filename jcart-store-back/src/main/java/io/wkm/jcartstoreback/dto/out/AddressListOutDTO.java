@@ -2,8 +2,8 @@ package io.wkm.jcartstoreback.dto.out;
 
 public class AddressListOutDTO {
     private Integer addressId;
-    private String receiveName;
-    private String receiveMobile;
+    private String receiverName;
+    private String receiverMobile;
     private String content;
     private String tag;
 
@@ -15,20 +15,20 @@ public class AddressListOutDTO {
         this.addressId = addressId;
     }
 
-    public String getReceiveName() {
-        return receiveName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setReceiveName(String receiveName) {
-        this.receiveName = receiveName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
-    public String getReceiveMobile() {
-        return receiveMobile;
+    public String getReceiverMobile() {
+        return receiverMobile;
     }
 
-    public void setReceiveMobile(String receiveMobile) {
-        this.receiveMobile = receiveMobile;
+    public void setReceiverMobile(String receiverMobile) {
+        this.receiverMobile = receiverMobile;
     }
 
     public String getContent() {

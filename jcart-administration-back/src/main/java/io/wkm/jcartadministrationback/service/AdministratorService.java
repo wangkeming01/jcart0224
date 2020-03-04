@@ -18,7 +18,7 @@ public interface AdministratorService {
 
     void update(Administrator administrator);
 
-    Page<AdministratorListOutDTO> getList(Integer pageNum);
+    Page<Administrator> getList(Integer pageNum);
 
     AdministratorShowOutDTO getShowById(Integer administratorId);
 
