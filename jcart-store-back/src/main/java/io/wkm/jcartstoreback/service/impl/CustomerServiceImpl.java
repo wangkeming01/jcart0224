@@ -48,6 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCreateTime(new Date());
         customer.setStatus((byte) CustomerStatus.Enable.ordinal());
         customer.setRewordPoints(0);
+        customer.setAvatarUrl(customerRegisterInDTO.getAvatarUrl());
 
         String s = BCrypt.withDefaults().hashToString(12, customerRegisterInDTO.getPassword().toCharArray());
         customer.setEncryptedPassword(s);

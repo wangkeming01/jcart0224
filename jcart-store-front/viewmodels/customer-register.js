@@ -9,7 +9,7 @@ var app = new Vue({
         repassword: '',
         newsSubscribed: false
     },
-    method: {
+    methods: {
         handleRegisterClick(){
             console.log("register view");
 

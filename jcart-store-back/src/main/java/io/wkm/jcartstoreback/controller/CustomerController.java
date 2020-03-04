@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin
 public class CustomerController {
 
     @Resource
@@ -31,7 +32,7 @@ public class CustomerController {
     }
 
     @GetMapping("/login")
-    public CustomerLoginOutDTO login(@RequestBody CustomerLoginInDTO customerLoginInDTO) throws ClientException {
+    public CustomerLoginOutDTO login( CustomerLoginInDTO customerLoginInDTO) throws ClientException {
         Customer customer = customerService.getByUserName(customerLoginInDTO.getUsername());
         if (customer == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRCODE,ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRMSG);
