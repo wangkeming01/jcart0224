@@ -1,6 +1,9 @@
 package io.wkm.jcartstoreback.mapper;
 
+import com.github.pagehelper.Page;
+import io.wkm.jcartstoreback.dto.out.ProductSearchOutDTO;
 import io.wkm.jcartstoreback.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer productId);
@@ -14,4 +17,7 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    Page<ProductSearchOutDTO> search();
+
 }
