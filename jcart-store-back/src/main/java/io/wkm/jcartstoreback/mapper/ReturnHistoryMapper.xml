@@ -17,7 +17,7 @@
     select
     <include refid="Base_Column_List" />
     from jcart_return_history
-    where returnId = #{returnId}
+    where return_id = #{returnId}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
