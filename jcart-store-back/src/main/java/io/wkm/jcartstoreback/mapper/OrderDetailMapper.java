@@ -1,6 +1,7 @@
 package io.wkm.jcartstoreback.mapper;
 
 import io.wkm.jcartstoreback.pojo.OrderDetail;
+import org.apache.ibatis.annotations.Param;
 
 public interface OrderDetailMapper {
     int deleteByPrimaryKey(Long orderId);
@@ -9,7 +10,7 @@ public interface OrderDetailMapper {
 
     int insertSelective(OrderDetail record);
 
-    OrderDetail selectByPrimaryKey(Long orderId);
+    OrderDetail selectByPrimaryKey(@Param("orderId") Long orderId);
 
     int updateByPrimaryKeySelective(OrderDetail record);
 

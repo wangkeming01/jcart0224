@@ -1,8 +1,10 @@
 package io.wkm.jcartstoreback.dto.out;
 
+import java.util.List;
+
 public class ReturnShowOutDTO {
     private Integer returnId;
-    private Integer orderId;
+    private Long orderId;
     private Long orderTimestamp;
     private String customerName;
     private String mobile;
@@ -16,6 +18,17 @@ public class ReturnShowOutDTO {
     private Boolean opened;
     private String comment;
     private Long createTimestamp;
+    private Long updateTimestamp;
+
+    private List<ReturnHistoryListOutDTO> returnHistories;
+
+    public List<ReturnHistoryListOutDTO> getReturnHistories() {
+        return returnHistories;
+    }
+
+    public void setReturnHistories(List<ReturnHistoryListOutDTO> returnHistories) {
+        this.returnHistories = returnHistories;
+    }
 
     public Integer getReturnId() {
         return returnId;
@@ -25,11 +38,11 @@ public class ReturnShowOutDTO {
         this.returnId = returnId;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -144,6 +157,4 @@ public class ReturnShowOutDTO {
     public void setUpdateTimestamp(Long updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
-
-    private Long updateTimestamp;
 }

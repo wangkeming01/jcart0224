@@ -25,6 +25,12 @@
     action, product_code, product_name, quantity, reason, opened, comment, create_time, 
     update_time
   </sql>
+  <select id="getPageByCustomerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_return
+    where customerId = #{customerId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -12,6 +12,13 @@
   <sql id="Base_Column_List">
     return_history_id, return_id, time, return_status, comment, customer_notified
   </sql>
+
+  <select id="getByReturnId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_return_history
+    where returnId = #{returnId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

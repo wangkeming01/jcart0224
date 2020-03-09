@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
     @GetMapping("/login")
-    public CustomerLoginOutDTO login( CustomerLoginInDTO customerLoginInDTO) throws ClientException {
+    public CustomerLoginOutDTO login(CustomerLoginInDTO customerLoginInDTO) throws ClientException {
         Customer customer = customerService.getByUserName(customerLoginInDTO.getUsername());
         if (customer == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRCODE,ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRMSG);

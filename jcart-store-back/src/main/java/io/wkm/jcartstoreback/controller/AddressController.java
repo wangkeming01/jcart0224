@@ -19,7 +19,7 @@ public class AddressController {
     @Resource
     private AddressService addressService;
 
-    @GetMapping("/getListByCustomerId")
+    @GetMapping("/getCustomerAddress")
     public List<AddressListOutDTO> getListByCustomerId(@RequestAttribute Integer customerId){
         List<Address> addressList = addressService.getListByCustomerId(customerId);
         List<AddressListOutDTO> addressListOutDTOS = addressList.stream().map(address -> {
