@@ -1,25 +1,25 @@
 package io.wkm.jcartadministrationback.dto.out;
 
 public class ReturnHistoryListOutDTO {
-    private Integer returnHistoryId;
-    private Integer timestamp;
+    private Long returnHistoryId;
+    private Long timestamp;
     private Byte returnStatus;
     private String comment;
     private Boolean customerNotified;
 
-    public Integer getReturnHistoryId() {
+    public Long getReturnHistoryId() {
         return returnHistoryId;
     }
 
-    public void setReturnHistoryId(Integer returnHistoryId) {
+    public void setReturnHistoryId(Long returnHistoryId) {
         this.returnHistoryId = returnHistoryId;
     }
 
-    public Integer getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Integer timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

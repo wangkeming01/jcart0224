@@ -18,6 +18,12 @@
     from jcart_return_history
     where return_history_id = #{returnHistoryId,jdbcType=BIGINT}
   </select>
+  <select id="getListByReturnId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_return_history
+    where return_id = #{returnId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from jcart_return_history
     where return_history_id = #{returnHistoryId,jdbcType=BIGINT}
@@ -30,7 +36,7 @@
       #{returnStatus,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR}, #{customerNotified,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="io.wkm.jcartadministrationback.pojo.ReturnHistory">
+  <insert id="insertSelective" parameterType="io.wkm.jcartadministrationback.pojo.ReturnHistory" useGeneratedKeys="true" keyProperty="returnHistoryId">
     insert into jcart_return_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="returnHistoryId != null">

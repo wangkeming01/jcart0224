@@ -1,11 +1,13 @@
 package io.wkm.jcartadministrationback.dto.out;
 
-public class AddressListOutDTO {
+public class AddressShowOutDTO {
     private Integer addressId;
+
     private String receiverName;
+
     private String receiverMobile;
+
     private String content;
-    private String tag;
 
     public Integer getAddressId() {
         return addressId;
@@ -46,4 +48,6 @@ public class AddressListOutDTO {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    private String tag;
 }

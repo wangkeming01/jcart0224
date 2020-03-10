@@ -1,10 +1,16 @@
 package io.wkm.jcartadministrationback.dto.out;
 
+import io.wkm.jcartadministrationback.vo.OrderProductVO;
+
 import java.util.List;
 
 public class OrderShowOutDTO {
-    private Integer orderId;
+    private Long orderId;
     private Integer customerId;
+    private String customerName;
+
+
+
     private Byte status;
     private Double totalPrice;
     private Integer rewordPoints;
@@ -17,13 +23,22 @@ public class OrderShowOutDTO {
     private String invoiceAddress;
     private Double invoicePrice;
     private String comment;
-    private List<OrderProductShowOutDTO> orderProducts;
 
-    public Integer getOrderId() {
+    private List<OrderProductVO> orderProducts;
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -131,11 +146,11 @@ public class OrderShowOutDTO {
         this.comment = comment;
     }
 
-    public List<OrderProductShowOutDTO> getOrderProducts() {
+    public List<OrderProductVO> getOrderProducts() {
         return orderProducts;
     }
 
-    public void setOrderProducts(List<OrderProductShowOutDTO> orderProducts) {
+    public void setOrderProducts(List<OrderProductVO> orderProducts) {
         this.orderProducts = orderProducts;
     }
 }

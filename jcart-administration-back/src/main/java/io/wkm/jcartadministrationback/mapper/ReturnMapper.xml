@@ -31,6 +31,35 @@
     from jcart_return
     where return_id = #{returnId,jdbcType=INTEGER}
   </select>
+  <select id="search" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_return
+    <where>
+      <if test="returnId != null">
+        return_id = #{returnId}
+      </if>
+      <if test="orderId != null">
+      and order_id = #{orderId}
+      </if>
+      <if test="startTime != null">
+        and create_time &gt;= #{startTime}
+      </if>
+      <if test="endTime != null">
+        and create_time &lt;= #{endTime}
+      </if>
+      <if test="productCode != null">
+        and product_code = #{productCode}
+      </if>
+      <if test="customerName != null and customerName != ''">
+        AND customer_name like concat('%',#{customerName},'%')
+      </if>
+      <if test="productName != null and productName != ''">
+        AND product_name like concat('%',#{productName},'%')
+      </if>
+      order by create_time desc
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jcart_return
     where return_id = #{returnId,jdbcType=INTEGER}

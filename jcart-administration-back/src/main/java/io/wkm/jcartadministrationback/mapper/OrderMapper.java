@@ -1,5 +1,7 @@
 package io.wkm.jcartadministrationback.mapper;
 
+import com.github.pagehelper.Page;
+import io.wkm.jcartadministrationback.dto.out.OrderListOutDTO;
 import io.wkm.jcartadministrationback.pojo.Order;
 
 public interface OrderMapper {
@@ -14,4 +16,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    Page<OrderListOutDTO> search();
 }

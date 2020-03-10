@@ -1,6 +1,8 @@
 package io.wkm.jcartadministrationback.mapper;
 
+import com.github.pagehelper.Page;
 import io.wkm.jcartadministrationback.pojo.Customer;
+import org.apache.ibatis.annotations.Param;
 
 public interface CustomerMapper {
     int deleteByPrimaryKey(Integer customerId);
@@ -14,4 +16,10 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
+
+    Page<Customer> search(@Param("username") String username,
+                          @Param("realName") String realName,
+                          @Param("mobile") String mobile,
+                          @Param("email") String email,
+                          @Param("status") Byte status);
 }

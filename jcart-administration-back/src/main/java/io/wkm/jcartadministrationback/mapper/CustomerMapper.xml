@@ -21,6 +21,29 @@
     customer_id, username, real_name, avatar_url, encrypted_password, mobile, mobile_verified, 
     email, email_verified, status, create_time, news_subscribed, reword_points, default_address_id
   </sql>
+  <select id="search" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_customer
+    <where>
+      <if test="username != null and username != ''">
+        username = #{username}
+      </if>
+      <if test="mobile != null and mobile != ''">
+        and mobile = #{mobile}
+      </if>
+      <if test="email != null and email != ''">
+        and email = #{email}
+      </if>
+      <if test="status != null ">
+        and status = #{status}
+      </if>
+      <if test="realName != null and realName != ''">
+        and real_name like concat("%",#{realName},"%")
+      </if>
+    </where>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

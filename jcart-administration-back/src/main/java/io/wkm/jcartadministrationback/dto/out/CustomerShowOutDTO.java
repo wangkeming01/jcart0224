@@ -11,7 +11,16 @@ public class CustomerShowOutDTO {
     private Long createTimestamp;
     private Boolean newsSubscribed;
     private Integer rewordPoints;
-    private Integer defaultAddress;
+    private String defaultAddress;
+    private Integer defaultAddressId;
+
+    public Integer getDefaultAddressId() {
+        return defaultAddressId;
+    }
+
+    public void setDefaultAddressId(Integer defaultAddressId) {
+        this.defaultAddressId = defaultAddressId;
+    }
 
     public Integer getCustomerId() {
         return customerId;
@@ -93,11 +102,11 @@ public class CustomerShowOutDTO {
         this.rewordPoints = rewordPoints;
     }
 
-    public Integer getDefaultAddress() {
+    public String getDefaultAddress() {
         return defaultAddress;
     }
 
-    public void setDefaultAddress(Integer defaultAddress) {
+    public void setDefaultAddress(String defaultAddress) {
         this.defaultAddress = defaultAddress;
     }
 }

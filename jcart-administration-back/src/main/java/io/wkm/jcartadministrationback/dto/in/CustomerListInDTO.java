@@ -1,6 +1,11 @@
 package io.wkm.jcartadministrationback.dto.in;
 
 public class CustomerListInDTO {
+    private String username;
+    private String realName;
+    private String mobile;
+    private String email;
+    private Byte status;
     public String getUsername() {
         return username;
     }
@@ -41,9 +46,5 @@ public class CustomerListInDTO {
         this.status = status;
     }
 
-    private String username;
-    private String realName;
-    private String mobile;
-    private String email;
-    private Byte status;
+
 }
