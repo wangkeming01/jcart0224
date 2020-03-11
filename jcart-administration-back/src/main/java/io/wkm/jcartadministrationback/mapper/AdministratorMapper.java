@@ -29,4 +29,6 @@ public interface AdministratorMapper {
     AdministratorShowOutDTO getShowById(@Param("administratorId") Integer administratorId);
 
     void batchDelete(@Param("administratorIds") List<Integer> administratorIds);
+
+    Administrator getByEmail(@Param("email") String email);
 }

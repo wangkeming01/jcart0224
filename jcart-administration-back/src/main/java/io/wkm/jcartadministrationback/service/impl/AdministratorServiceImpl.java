@@ -62,4 +62,9 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void batchDelete(List<Integer> administratorIds) {
         administratorMapper.batchDelete(administratorIds);
     }
+
+    @Override
+    public Administrator getByEmail(String email) {
+        return administratorMapper.getByEmail(email);
+    }
 }

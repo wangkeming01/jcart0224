@@ -30,6 +30,12 @@
     administrator_id, username, real_name, email, encrypted_password, status, create_time, 
     avatar_url
   </sql>
+  <select id="getByEmail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_administrator
+    where email = #{email}
+  </select>
   <select id="getList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

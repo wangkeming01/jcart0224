@@ -1,6 +1,7 @@
 package io.wkm.jcartadministrationback.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import ch.qos.logback.core.net.server.Client;
 import com.github.pagehelper.Page;
 import com.sun.org.apache.bcel.internal.util.BCELifier;
 import io.wkm.jcartadministrationback.constant.ClientExceptionConstant;
@@ -11,13 +12,16 @@ import io.wkm.jcartadministrationback.exception.ClientException;
 import io.wkm.jcartadministrationback.pojo.Administrator;
 import io.wkm.jcartadministrationback.service.AdministratorService;
 import io.wkm.jcartadministrationback.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
-import sun.security.util.Password;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,6 +30,17 @@ import java.util.stream.Collectors;
 public class AdministratorController {
     @Resource
     private AdministratorService administratorService;
+
+    @Resource
+    private SecureRandom secureRandom;
+
+    @Resource
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String formEmail;
+
+    private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
 
     @Resource
     private JWTUtil jwtUtil;
@@ -41,7 +56,7 @@ public class AdministratorController {
             AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
             return administratorLoginOutDTO;
         }else {
-            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PASSWORD_INVALID_ERRMSG);
         }
     }
 
@@ -78,13 +93,56 @@ public class AdministratorController {
     }
 
     @GetMapping("/getPwdResetCode")
-    public String getPwdResetCode(@RequestParam String email){
-        return null;
+    public void getPwdResetCode(@RequestParam String email) throws ClientException {
+        Administrator administrator = administratorService.getByEmail(email);
+        if(administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE,ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
+        }
+        byte[] bytes = secureRandom.generateSeed(3);
+        String hex = DatatypeConverter.printHexBinary(bytes);
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(formEmail);
+        simpleMailMessage.setTo(email);
+        simpleMailMessage.setSubject("jcart管理端管理员密码重置");
+        simpleMailMessage.setText(hex);
+        mailSender.send(simpleMailMessage);
+
+        emailPwdResetCodeMap.put(email,hex);
+
+
     }
 
-    @GetMapping("/resetPwd")
-    public void resetPwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
+    @PostMapping("/resetPwd")
+    public void resetPwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO) throws ClientException {
+        String email = administratorResetPwdInDTO.getEmail();
+        if (email == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRMSG);
+        }
+        String innerResetCode = emailPwdResetCodeMap.get(email);
+        if (innerResetCode == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRMSG);
+        }
+        String outerResetCode = administratorResetPwdInDTO.getResetCode();
+        if (outerResetCode == null) {
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_OUTER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_OUTER_RESETCODE_NONE_ERRMSG);
+        }
+        if (!outerResetCode.equalsIgnoreCase(innerResetCode)){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_RESETCODE_INVALID_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_RESETCODE_INVALID_ERRMSG);
+        }
+        Administrator administrator = administratorService.getByEmail(email);
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
+        }
 
+        String newPwd = administratorResetPwdInDTO.getNewPwd();
+        if (newPwd == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_NEWPWD_NOT_EXIST_ERRMSG);
+        }
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
+        administrator.setEncryptedPassword(bcryptHashString);
+        administratorService.update(administrator);
+
+        emailPwdResetCodeMap.remove(email);
     }
 
     @GetMapping("/getList")

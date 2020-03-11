@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin
 public class CustomerController {
     @Resource
     private CustomerService customerService;
@@ -70,7 +71,7 @@ public class CustomerController {
         return customerShowOutDTO;
     }
 
-    @PostMapping("/disable")
+    @PostMapping("/setStatus")
     public void disable(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
         customerService.setStatus(customerSetStatusInDTO);
     }

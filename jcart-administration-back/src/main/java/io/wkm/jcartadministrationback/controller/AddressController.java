@@ -4,10 +4,7 @@ import io.wkm.jcartadministrationback.dto.out.AddressListOutDTO;
 import io.wkm.jcartadministrationback.dto.out.AddressShowOutDTO;
 import io.wkm.jcartadministrationback.pojo.Address;
 import io.wkm.jcartadministrationback.service.AddressService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/address")
+@CrossOrigin
 public class AddressController {
     @Resource
     private AddressService addressService;
