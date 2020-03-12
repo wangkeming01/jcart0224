@@ -2,7 +2,12 @@ var app = new Vue({
     el: '#app',
     data: {
         pageInfo: '',
-        pageNum: 1
+        pageNum: 1,
+        statuses: [
+          { value: 0, label: '下架'},
+          { value: 1, label: '上架'},
+          { value: 2, label: '待审核'},
+        ]
     },
     mounted(){
         console.log("view mounted");

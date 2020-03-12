@@ -18,13 +18,20 @@
     </el-table-column>
     <el-table-column prop="productName" label="商品名称"width="180">
     </el-table-column>
-    <el-table-column prop="price" label="价格"width="180">
+    <el-table-column  label="价格"width="180">
+      <template slot-scope="scope">
+       <s> {{scope.row.price}}</s><br>
+       {{(scope.row.price * scope.row.discount).toFixed(2)}}
+      </template>
     </el-table-column>
-    <el-table-column prop="discount" label="折扣" width="180">
-    </el-table-column>
+    <!-- <el-table-column prop="discount" label="折扣" width="180">
+    </el-table-column> -->
     <el-table-column prop="stockQuantity" label="库存" width="180">
     </el-table-column>
     <el-table-column prop="status" label="状态" width="180">
+      <template slot-scope="scope">
+        {{statuses[scope.row.status].label}}
+    </template>
     </el-table-column>
 
   
