@@ -14,6 +14,7 @@
     <el-input v-model="username" readonly placeholder="请输入用户名"></el-input>
     <el-input v-model="realName" placeholder="请输入姓名"></el-input>
     <el-input v-model="email" placeholder="请输入邮箱"></el-input>
+    创建时间：{{(new Date(createTimeStamp)).toLocaleString()}}
     <el-upload ref="upload" action="" :http-request="uploadImage" :limit="1" accept="image/*"
       :auto-upload="false" :on-change="handleOnChange" :file-list="fileList">
       <el-button slot="trigger" size="small" type="primary">选取头像</el-button>

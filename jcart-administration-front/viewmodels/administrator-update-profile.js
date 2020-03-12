@@ -8,7 +8,8 @@ var app = new Vue({
         email: '',
         avatarUrl: '',
         fileList: [],
-        selectPic: ''
+        selectPic: '',
+        createTimeStamp: ''
     },
     mounted(){
         console.log("view mounted");
@@ -49,7 +50,8 @@ var app = new Vue({
             app.realName = administrator.realName;
             app.email = administrator.email;
             app.avatarUrl = administrator.avatarUrl;
-            app.administratorId = administrator.administratorId
+            app.administratorId = administrator.administratorId;
+            app.createTimeStamp = administrator.createTimeStamp;
             })
             .catch(function (error) {
             console.log(error);
