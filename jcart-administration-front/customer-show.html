@@ -17,7 +17,9 @@
     手机：{{mobile}} <br>
     邮箱：{{email}} <br>
     状态：{{status}} <br>
-    注册时间：{{createTimestamp}} <br>
+    注册时间：
+                {{(new Date(createTimestamp)).toLocaleString()}}
+         <br>
     订阅新闻：{{newsSubscribed}} <br>
     积分：{{rewordPoints}} <br>
     默认地址：{{defaultAddress}} <br>
