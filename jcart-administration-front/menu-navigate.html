@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="assets/css/elementui.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <title>menu-navigate</title>
 </head>
 
@@ -15,15 +16,15 @@
             <el-header>JCart电商系统</el-header>
             <el-container>
                 <el-aside width="200px">
-                    <el-menu unique-opened router background-color="#545c64" text-color="#fff"
-                        active-text-color="#ffd04b" @select="handleMenuItemSelect">
+                    <el-menu unique-opened background-color="#545c64" text-color="#fff"
+                        active-text-color="#ffd04b" router>
                         <el-submenu v-for="subMenu in subMenus" :key="subMenu.index" :index="subMenu.index">
                             <template slot="title">
                                 <i :class="subMenu.icon"></i>
                                 <span>{{subMenu.name}}</span>
                             </template>
                             <el-menu-item v-for="menuItem in subMenu.menuItems" :key="menuItem.index"
-                                :index="menuItem.index">
+                                :index="menuItem.index" :route="menuItem.route">
                                 {{menuItem.name}}
                             </el-menu-item>
                         </el-submenu>
@@ -59,9 +60,7 @@
                     </el-menu>
                 </el-aside>
                 <el-container>
-                    <el-main>
-                        <jc-product-search-page v-if=" selectMainPage == '1-1' "></jc-product-search-page>
-                    </el-main>
+                    <router-view></router-view>
                 </el-container>
             </el-container>
         </el-container>
@@ -73,8 +72,12 @@
     <script src="assets/js/vue.js"></script>
     <script src="assets/js/elementui.js"></script>
     <script src="viewmodels/menu-navigate.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/js/vue-router.js"></script>
 
-    <script src="page/product-search-page.js"></script>
+    <script src="route-page/router.js"></script>
+
+    <script src="route-page/product-search-route-page.js"></script>
 
 </body>
 
