@@ -2,6 +2,7 @@ package io.wkm.jcartadministrationback.controller;
 
 import io.wkm.jcartadministrationback.constant.ClientExceptionConstant;
 import io.wkm.jcartadministrationback.exception.ClientException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,8 @@ import java.util.UUID;
 @CrossOrigin
 public class ImageController {
     private List<String> imageExts = Arrays.asList("jpg","png","png");
+    @Value("${www.image.baseUrl}")
+    private String baseUrl;
     @RequestMapping("/upload")
     public String upload(@RequestParam MultipartFile image) throws ClientException, Exception {
         String originalFilename = image.getOriginalFilename();
@@ -36,6 +39,6 @@ public class ImageController {
             byte[] data = image.getBytes();
             out.write(data);
         }
-        return filename;
+        return baseUrl+"/"+filename;
     }
 }

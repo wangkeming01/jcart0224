@@ -9,6 +9,7 @@ import io.wkm.jcartadministrationback.dto.out.ProductListOutDTO;
 import io.wkm.jcartadministrationback.dto.out.ProductShowOutDTO;
 import io.wkm.jcartadministrationback.pojo.Product;
 import io.wkm.jcartadministrationback.service.ProductService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,11 +19,16 @@ import java.util.List;
 @RequestMapping("/product")
 @CrossOrigin
 public class ProductController {
+    @Value("${www.image.baseUrl}")
+    private String baseUrl;
     @Resource
     private ProductService productService;
     @GetMapping("/search")
     public PageOutDTO<ProductListOutDTO> getList(@RequestParam Integer pageNum,  ProductSearchInDTO productSearchInDTO){
         Page<ProductListOutDTO> page = productService.search(pageNum);
+        for (ProductListOutDTO productListOutDTO : page) {
+            productListOutDTO.setMainPicUrl(baseUrl+"/"+productListOutDTO.getMainPicUrl());
+        }
         PageOutDTO<ProductListOutDTO> productListOutDTOPageOutDTO = new PageOutDTO<>();
         productListOutDTOPageOutDTO.setTotal(page.getTotal());
         productListOutDTOPageOutDTO.setPageNum(pageNum);
