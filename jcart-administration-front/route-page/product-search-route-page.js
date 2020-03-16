@@ -2,7 +2,6 @@ const ProductSearchRoutePage = {
     template: `
     <div id="app">
     <el-button type="primary" @click="handleCreateClick">添加商品</el-button>
-    <br><br>
 
     <el-input v-model="productCode" placeholder="请输入商品代号"></el-input>
     <el-input v-model="productName" placeholder="请输入商品名称"></el-input>

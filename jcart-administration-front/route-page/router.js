@@ -8,6 +8,9 @@ const router = new VueRouter({
         { path: '/return/search', component: RetuenSearchRoutePage },
         { path: '/administrator/index', component: AdministratorIndexRoutePage },
         { path: '/administrator/create', component: AdministratorCreateRoutePage },
-        { path: '/administrator/update/:administratorId', component: AdministratorUpdateRoutePage }
+        { path: '/administrator/update/:administratorId', component: AdministratorUpdateRoutePage },
+        { path: '/administrator/updateprofile', component: AdministratorUpdateProfileRoutePage },
+        { path: '/administrator/about', component: AdministratorAboutRoutePage },
+        { path: '/administrator/logout', component: AdministratorLogoutRoutePage },
     ]
 })
