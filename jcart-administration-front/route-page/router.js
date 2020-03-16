@@ -12,5 +12,20 @@ const router = new VueRouter({
         { path: '/administrator/updateprofile', component: AdministratorUpdateProfileRoutePage },
         { path: '/administrator/about', component: AdministratorAboutRoutePage },
         { path: '/administrator/logout', component: AdministratorLogoutRoutePage },
+        {
+            path: '/return/edit/:returnId',
+            component: ReturnEditRoutePage,
+            children: [
+                {
+                    path: 'show',
+                    component: ReturnShowRoutePage
+                },
+                {
+                    path: 'history',
+                    component: ReturnHistoryIndexRoutePage
+                }
+            ]
+        }
+
     ]
 })

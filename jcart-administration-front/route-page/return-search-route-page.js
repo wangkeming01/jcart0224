@@ -12,11 +12,25 @@ const RetuenSearchRoutePage = {
         <el-table-column prop="productName" label="商品名称">
         </el-table-column>
         <el-table-column prop="status" label="状态">
-        </el-table-column>
-        <el-table-column prop="createTimestamp" label="申请日期">
-        </el-table-column>
-        <el-table-column prop="updateTimestamp" label="修改日期">
-        </el-table-column>
+        <template slot-scope="scope">
+            {{statuses[scope.row.status].label}}
+        </template>
+    </el-table-column>
+    <el-table-column label="申请日期">
+        <template slot-scope="scope">
+            {{(new Date(scope.row.createTimestamp)).toLocaleString()}}
+        </template>
+    </el-table-column>
+    <el-table-column label="修改日期">
+        <template slot-scope="scope">
+            {{(new Date(scope.row.updateTimestamp)).toLocaleString()}}
+        </template>
+    </el-table-column>
+    <el-table-column label="操作">
+        <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="handleEditClick(scope.$index, scope.row)">编辑</el-button>
+        </template>
+    </el-table-column>
     </el-table>
 
     <el-pagination layout="prev, pager, next" :total="pageInfo.total" @current-change="handlePageChange">
@@ -25,6 +39,21 @@ const RetuenSearchRoutePage = {
     data() {
         return {
             pageInfo: '',
+            returnId: '',
+            orderId: '',
+            customerName: '',
+            productCode: '',
+            productName: '',
+            selectedStatus: '',
+            statuses: [
+                { value: 0, label: '待处理' },
+                { value: 1, label: '待取货' },
+                { value: 2, label: '正在处理' },
+                { value: 3, label: '完成' },
+                { value: 4, label: '拒绝' }
+            ],
+            startTime: '',
+            endTime: '',
             pageNum: 1
         }
 
@@ -37,13 +66,16 @@ const RetuenSearchRoutePage = {
             this.pageNum = val;
             this.searchReturn();
         },
+        handleEditClick(index, row) {
+            this.$router.push('/return/edit/' + row.returnId + '/show');
+        },
         searchReturn() {
             axios.get('/return/search', {
                 params: {
                     pageNum: this.pageNum
                 }
             })
-                .then((response) =>  {
+                .then((response) => {
                     console.log(response);
                     this.pageInfo = response.data;
                 })
