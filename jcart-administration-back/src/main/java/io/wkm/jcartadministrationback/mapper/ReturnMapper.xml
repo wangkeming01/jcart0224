@@ -57,8 +57,9 @@
       <if test="productName != null and productName != ''">
         AND product_name like concat('%',#{productName},'%')
       </if>
-      order by create_time desc
+
     </where>
+    order by create_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from jcart_return
