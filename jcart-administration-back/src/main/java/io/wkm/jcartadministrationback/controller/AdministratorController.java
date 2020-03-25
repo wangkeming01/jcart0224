@@ -9,10 +9,12 @@ import io.wkm.jcartadministrationback.dto.in.*;
 import io.wkm.jcartadministrationback.dto.out.*;
 import io.wkm.jcartadministrationback.enumeration.AdministratorStatus;
 import io.wkm.jcartadministrationback.exception.ClientException;
+import io.wkm.jcartadministrationback.mq.EmailEvent;
 import io.wkm.jcartadministrationback.pojo.Administrator;
 import io.wkm.jcartadministrationback.service.AdministratorService;
 import io.wkm.jcartadministrationback.util.EmailUtil;
 import io.wkm.jcartadministrationback.util.JWTUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -47,6 +49,9 @@ public class AdministratorController {
     private String formEmail;
 
     private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
     @Resource
     private EmailUtil emailUtil;
@@ -110,7 +115,12 @@ public class AdministratorController {
         byte[] bytes = secureRandom.generateSeed(3);
         String hex = DatatypeConverter.printHexBinary(bytes);
 //        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        emailUtil.sendEmail(formEmail,email,hex,"jcart管理端管理员密码重置");
+        EmailEvent emailEvent = new EmailEvent();
+        emailEvent.setFrom(formEmail);
+        emailEvent.setTo(email);
+        emailEvent.setTitle("jcart管理端管理员密码重置");
+        emailEvent.setContent(hex);
+        rocketMQTemplate.convertAndSend("email-topic-1",emailEvent);
 //        simpleMailMessage.setFrom(formEmail);
 //        simpleMailMessage.setTo(email);
 //        simpleMailMessage.setSubject("jcart管理端管理员密码重置");
