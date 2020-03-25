@@ -11,9 +11,11 @@ import io.wkm.jcartadministrationback.enumeration.AdministratorStatus;
 import io.wkm.jcartadministrationback.exception.ClientException;
 import io.wkm.jcartadministrationback.pojo.Administrator;
 import io.wkm.jcartadministrationback.service.AdministratorService;
+import io.wkm.jcartadministrationback.util.EmailUtil;
 import io.wkm.jcartadministrationback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import javax.annotation.Resource;
 import javax.xml.bind.DatatypeConverter;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,10 +40,16 @@ public class AdministratorController {
     @Resource
     private JavaMailSender mailSender;
 
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
+
     @Value("${spring.mail.username}")
     private String formEmail;
 
     private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
+
+    @Resource
+    private EmailUtil emailUtil;
 
     @Resource
     private JWTUtil jwtUtil;
@@ -100,14 +109,15 @@ public class AdministratorController {
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String hex = DatatypeConverter.printHexBinary(bytes);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(formEmail);
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("jcart管理端管理员密码重置");
-        simpleMailMessage.setText(hex);
-        mailSender.send(simpleMailMessage);
+//        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        emailUtil.sendEmail(formEmail,email,hex,"jcart管理端管理员密码重置");
+//        simpleMailMessage.setFrom(formEmail);
+//        simpleMailMessage.setTo(email);
+//        simpleMailMessage.setSubject("jcart管理端管理员密码重置");
+//        simpleMailMessage.setText(hex);
+//        mailSender.send(simpleMailMessage);
 
-        emailPwdResetCodeMap.put(email,hex);
+        redisTemplate.opsForValue().set("Email"+email,hex,1L, TimeUnit.MINUTES);
 
 
     }
@@ -118,7 +128,7 @@ public class AdministratorController {
         if (email == null) {
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRMSG);
         }
-        String innerResetCode = emailPwdResetCodeMap.get(email);
+        String innerResetCode = redisTemplate.opsForValue().get("Email" + email);
         if (innerResetCode == null) {
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRMSG);
         }
@@ -142,7 +152,6 @@ public class AdministratorController {
         administrator.setEncryptedPassword(bcryptHashString);
         administratorService.update(administrator);
 
-        emailPwdResetCodeMap.remove(email);
     }
 
     @GetMapping("/getList")
